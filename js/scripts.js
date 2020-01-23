@@ -56,12 +56,12 @@ var camisetas = {
 // parâmetros da pesquisa
 
 var parametros_pesquisa = {
-    "quantidade": 10,
+    "quantidade": 200,
     "cor": "colorida",
     "gola": "gola_v",
     "qualidade": "q150",
     "estampa": "com_estampa",
-    "embalagem": "bulk"
+    "embalagem": "unitaria"
 }
 
 
@@ -84,8 +84,54 @@ var parametros_pesquisa = {
 
 $(function(){
 
-    // Se quiser uma sugestão dos passos a seguir para a resolução, veja mais abaixo.
+  // 1. Crie uma função para calcular o preço baseado nos parâmetros da variável "parametros_pesquisa" e solte o 
+    // valor no console para testar se está certo.   
     
+   function atualizar_orçamento(parametros){
+    //sempre que atualizarmos o orçamento vamos mostrar o loader primeiro
+    $('.refresh-loader').show();
+    // 1. Verificar se há em localStorage os parâmetros do último orçamento e se houver, carregar a página com eles.
+    //como eu não tenho localStorage, carrego os dados como se fosse o ultimo orçamento
+    var quantidade = parametros.quantidade;
+    var preco_unit = camisetas[parametros.cor][parametros.gola][parametros.estampa].preco_unit; 
+    var foto = 'img/' + camisetas[parametros.cor][parametros.gola][parametros.estampa].foto; 
+  
+    var valor_total = quantidade * preco_unit;
+    
+    // 2. A camisa de qualidade alta (190g/m2) deve acrescer o preço unitário em 12%.
+    // vamos testar se a camisa é de qualidade alta
+    //console.log(valor_total);
+    if(parametros.qualidade == "q190"){
+        valor_total *= 1.12;
+    }
+    // 3. A embalagem unitária tem um custo de 0.15 por unidade
+    if(parametros.embalagem == "unitatia"){
+        valor_total += quantidade * 0.15;
+    }
+    
+    // 4. Após cálculo do preço, há que se aplicar um desconto por quantidade, sendo: 
+    // faixa 1: acima de 1.000 - Desconto de 15%
+    // faixa 2: acima de 500 - Desconto de 10%
+    // faixa 3: acima de 100 - Desconto de 5%
+
+    if(quantidade > 1000){
+        quantidade *= 0.85;
+    }else if(quantidade >= 500 ){
+        quantidade*= 0.90;
+    }else if(quantidade >= 100){
+        quantidade *= 0.95;
+    }
+
+    console.log(valor_total.toFixed(2));
+
+}
+
+  // Ao carregar a página
+
+
+  //verificar local storage e atualizar a variável parametros_pesquisa
+   atualizar_orçamento(parametros_pesquisa);
+
 });
 
 

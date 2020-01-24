@@ -56,7 +56,7 @@ var camisetas = {
 // parâmetros da pesquisa
 
 var parametros_pesquisa = {
-    "quantidade": 200,
+    "quantidade": 100,
     "cor": "colorida",
     "gola": "gola_v",
     "qualidade": "q150",
@@ -115,17 +115,32 @@ $(function(){
     console.log('valor total',valor_total.toFixed(2));
     $('.refresh-loader').hide();
 }
-
+  // a. Faça o evento click para os filtros do tipo botão (.option-filter). Sempre que houver um click, 
+  // remova a classe "selected" dos botões do grupo e depois aplique-a apenas ao que foi clicado para
+  // que ele fique azul.
 $(".option-filter div").click(function(){
     $(this).parent().children("div").removeClass("selected");//retira a classe selected de todos os botões, remove a cor azul do botão quando clicado
     $(this).addClass("selected");// deixar o botão selecionado azul, ou seja adiciona a classe selected
 
-    var categoria = $(this).parent().attr('id');
+    var categoria = $(this).parent().attr('id'); // atualizando a cor da camiseta
     parametros_pesquisa[categoria] = $(this).attr('id');
     atualizar_orçamento(parametros_pesquisa);
 })
-
+// b. Faça o evento change para os filtros do tipo <select> e para o <input> de quantidade.
   // Ao carregar a página
+  $("select").change(function(){
+
+    var parametro_select = $(this).attr('id');
+    parametros_pesquisa[parametro_select] = $(this).val();
+    atualizar_orçamento(parametros_pesquisa);
+  });
+
+  $("#quantidade").change(function(){
+    var parametro_input = $(this).attr('id');
+    parametros_pesquisa[parametro_input] = $(this).val();
+    atualizar_orçamento(parametros_pesquisa);
+  })
+  
 
 
   //verificar local storage e atualizar a variável parametros_pesquisa

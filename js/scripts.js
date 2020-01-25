@@ -110,10 +110,39 @@ $(function(){
     }else if(quantidade >= 100){
         quantidade *= 0.95;
     }
+   //teste dos dados no console
+   // console.log('parametros', parametros)
+   // console.log('valor total',valor_total.toFixed(2));
+  
+     //atualizando os campos detalhes do produto com um tempo de 2s
+     //se a consulta fosse em uma base de dados não necessitaria dessa função
+     //pq o tempo normal seria em torno de 1s ou 2s
+   window.setTimeout(function(){
+    
+   var id_gola = "#"+ parametros.gola; 
+   $('#result_gola').html($(id_gola).html());
 
-    console.log('parametros', parametros)
-    console.log('valor total',valor_total.toFixed(2));
+   var id_estampa = "option[value='"+ parametros.estampa + "']";
+   $('#result_estampa').html($(id_estampa).html());
+
+   var id_qualidade = "#"+ parametros.qualidade;
+   $('#result_qualidade').html($(id_qualidade).html());
+
+   var id_cor = "#"+ parametros.cor;
+   $('#result_cor').html($(id_cor).html());
+
+   var id_embalagem =  "option[value='"+ parametros.embalagem + "']";
+   $('#result_embalagem').html($(id_embalagem).html());
+
+   $('#result_quantidade').html(parametros.quantidade);
+   $('#valor-total').html(valor_total.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2}); 
+   //para alterar a foto da camiseta
+   $('#foto-produto').attr('src',foto);
+
+   //esconder o loader
     $('.refresh-loader').hide();
+
+   },1000)
 }
   // a. Faça o evento click para os filtros do tipo botão (.option-filter). Sempre que houver um click, 
   // remova a classe "selected" dos botões do grupo e depois aplique-a apenas ao que foi clicado para
